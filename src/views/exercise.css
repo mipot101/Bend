@@ -1,17 +1,24 @@
 .exercise-view {
     height: 100vh;
-    border-style: solid;
-    border-width: 4px;
-    border-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    /*border-style: solid;*/
+    /*border-width: 4px;*/
+    /*border-color: lightgray;*/
 }
 
 .header {
     position: relative;
-    height: 3rem;
+    height: 4rem;
+    align-self: flex-start;
+    width: 100%;
 
     border-bottom-style: solid;
     border-bottom-color: lightgray;
-    border-bottom-width: 2px;
+    border-bottom-width: 1px;
 }
 
 
@@ -21,18 +28,6 @@
     left: 1rem;
     top: 50%;
     transform: translateY(-50%);
-
-    /* Circle around icon */
-    width: 2rem; /* Adjust as needed */
-    height: 2rem; /* Adjust as needed */
-    /*background-color: #ccc;*/
-    border-radius: 50%; /* Makes it circular */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
-
-    /* Position icon in the middle of the circle */
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 
@@ -50,48 +45,53 @@
 }
 
 .exercise {
-    border-style: solid;
-    border-width: 4px;
-    border-color: orange;
+    width: 100%;
+    margin-top: 5vh;
+    margin-bottom: auto;
+
+    /*border-style: solid;*/
+    /*border-width: 4px;*/
+    /*border-color: orange;*/
 }
 
-.exercise-container {
+.exercise-name {
+    padding-top: 1vh;
+    font-size: 1.5rem;
+    font-weight: bolder;
+
+    /* Order children */
     display: flex;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
-    padding-top: 2rem;
-    padding-bottom: 1rem;
+    justify-content: center;
 }
 
-.exercise-timer {
-    width: 36vh; /* Adjust size as needed */
-    height: 36vh; /* Adjust size as needed */
-    border-radius: 50%; /* Makes the div circular */
-    border-width: 10px;
-    border-style: solid;
-    border-color: lightgray;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.exercise-image {
-    width: 35vh; /* Set your desired width */
-    height: 35vh; /* Set your desired height */
-    border-radius: 50%; /* Makes the div circular */
-    background-size: cover; /* Ensures the image covers the entire div */
-    background-position: center; /* Centers the image within the div */
-    margin: 0.5rem;
-}
 
 .timer {
-    border-style: solid;
-    border-width: 4px;
-    border-color: blue;
+    font-size: 3rem;
+    font-weight: bold;
+    color: gray;
 }
 
 .controls {
-    border-style: solid;
-    border-width: 4px;
-    border-color: green;
+    width: 100%;
+    margin-top: auto;
+    margin-bottom: 2vh;
+    display: flex;
+
+    /*border-style: solid;*/
+    /*border-width: 2px;*/
+    /*border-color: green;*/
+}
+
+.control-panel {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+}
+
+.control-button {
+    padding: 1rem;
+    flex: 1;
 }

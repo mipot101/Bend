@@ -1,0 +1,54 @@
+.exercise-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+}
+
+.exercise-timer {
+    position: relative;
+    width: 36vh; /* Adjust size as needed */
+    height: 36vh; /* Adjust size as needed */
+    border-radius: 50%; /* Makes the div circular */
+    border: 0.6rem solid lightgray; /* Sets border color and thickness */
+}
+
+.exercise-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 35vh; /* Set your desired width */
+    height: 35vh; /* Set your desired height */
+    border-radius: 50%; /* Makes the div circular */
+    background-size: cover; /* Ensures the image covers the entire div */
+    background-position: center; /* Centers the image within the div */
+    /* Add any additional styling you need */
+}
+
+.moving-circle {
+    position: absolute;
+    top: calc(50% - 0.4rem);
+    left: calc(50% - 0.4rem);
+    /*transform: translate(-50%, -50%);*/
+    width: 0.8rem; /* Adjust size of the moving circle */
+    height: 0.8rem; /* Adjust size of the moving circle */
+    border-radius: 50%; /* Makes the moving circle circular */
+    background-color: black; /* Set color of the moving circle */
+    --degree: 0deg;
+    transform: rotate(var(--degree)) translateY(calc(-18vh - 0.3rem));
+    /*animation: move-around-border linear infinite; !* Adjust duration as needed *!*/
+    /*animation-iteration-count: 1;*/
+    /*animation-fill-mode: forwards;*/
+    /*animation-play-state: running; !* Initially running *!*/
+}
+
+@keyframes move-around-border {
+    from {
+        transform: rotate(0deg) translateY(calc(-18vh - 0.3rem)) rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg) translateY(calc(-18vh - 0.3rem)) rotate(-360deg);
+    }
+}

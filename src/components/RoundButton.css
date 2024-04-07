@@ -1,0 +1,15 @@
+
+.button {
+    width: 2rem; /* Adjust as needed */
+    height: 2rem; /* Adjust as needed */
+    background-color: white;
+    border-style: none;
+    border-radius: 50%; /* Makes it circular */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+
+
+    /* Position icon in the middle of the circle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
