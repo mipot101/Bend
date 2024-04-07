@@ -7,19 +7,32 @@
 
 .header {
     position: relative;
-    height: 2rem;
+    height: 3rem;
 
-    border-style: solid;
-    border-width: 4px;
-    border-color: red;
+    border-bottom-style: solid;
+    border-bottom-color: lightgray;
+    border-bottom-width: 2px;
 }
 
 
 .close-button {
+    /* Positioning */
     position: absolute;
     left: 1rem;
     top: 50%;
     transform: translateY(-50%);
+
+    /* Circle around icon */
+    width: 2rem; /* Adjust as needed */
+    height: 2rem; /* Adjust as needed */
+    /*background-color: #ccc;*/
+    border-radius: 50%; /* Makes it circular */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+
+    /* Position icon in the middle of the circle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -27,21 +40,48 @@
     /* Positioning */
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+
 
     /* Visual */
     font-size: 1.5rem;
-    padding: 3px
-
-    /*text-align: center;*/
-    /*margin-left: auto;*/
-    /*margin-right: auto;*/
+    font-weight: bold;
 }
 
 .exercise {
     border-style: solid;
     border-width: 4px;
     border-color: orange;
+}
+
+.exercise-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+}
+
+.exercise-timer {
+    width: 36vh; /* Adjust size as needed */
+    height: 36vh; /* Adjust size as needed */
+    border-radius: 50%; /* Makes the div circular */
+    border-width: 10px;
+    border-style: solid;
+    border-color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.exercise-image {
+    width: 35vh; /* Set your desired width */
+    height: 35vh; /* Set your desired height */
+    border-radius: 50%; /* Makes the div circular */
+    background-size: cover; /* Ensures the image covers the entire div */
+    background-position: center; /* Centers the image within the div */
+    margin: 0.5rem;
 }
 
 .timer {
