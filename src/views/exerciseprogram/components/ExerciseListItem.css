@@ -8,6 +8,10 @@
     margin-left: 1.25rem;
 }
 
+.container:last-child {
+    margin-bottom: 6rem;
+}
+
 .icon-container {
     margin-right: 1rem;
 }

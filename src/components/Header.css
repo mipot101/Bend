@@ -1,6 +1,7 @@
 .header {
-    position: relative;
-    height: 5rem;
+    position: absolute;
+    top: 0;
+    height: 4rem;
     align-self: flex-start;
     width: 100%;
 

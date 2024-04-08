@@ -1,7 +1,8 @@
 import "./ProgramList.css"
 import ExerciseIcon from "../../../components/ExerciseIcon";
+import {AppStates} from "../../../App";
 
-const ProgramList = ({myPrograms, myProgramDurations}) => {
+const ProgramList = ({myPrograms, myProgramDurations, setAppState}) => {
     return (
         <div className="home-view-my-program-list-container">
             <div className="home-view-my-program-list-title">
@@ -9,7 +10,9 @@ const ProgramList = ({myPrograms, myProgramDurations}) => {
             </div>
             <div className="home-view-my-program-list">
                 {myPrograms.map((program, index) => (
-                    <div key={index} className="home-view-my-program-list-item">
+                    <button key={index} className="home-view-my-program-list-item" onClick={() => {
+                        setAppState(AppStates.PROGRAM_VIEW)
+                    }}>
                         <ExerciseIcon size={"3.5rem"}/>
                         <div className="home-view-my-program-list-item-title">
                             {program}
@@ -17,7 +20,7 @@ const ProgramList = ({myPrograms, myProgramDurations}) => {
                         <div className="home-view-my-program-list-item-duration">
                             {myProgramDurations[index]} Minuten
                         </div>
-                    </div>
+                    </button>
                 ))}
             </div>
         </div>

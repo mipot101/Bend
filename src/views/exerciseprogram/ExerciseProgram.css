@@ -1,9 +1,13 @@
 .exercise-program {
+    position: relative;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .exercise-list {
+    margin-top: 4rem;
+    overflow: auto;
     display: flex;
     flex-direction: column;
 }

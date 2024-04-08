@@ -26,6 +26,9 @@
     align-items: flex-start;
     padding: 1rem;
 
+    background-color: white;
+    border: none;
+
     flex-shrink: 0;
     width: 50vw;
     margin: 0.6rem;
@@ -46,6 +49,7 @@
     padding-top: 0.8rem;
     font-weight: bold;
     font-size: 1.2rem;
+    color: black;
 }
 
 .home-view-my-program-list-item-duration {

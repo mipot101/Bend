@@ -8,12 +8,12 @@ export const DefaultViewStates = {
     HOME: "Meine Bibliothek",
     STATS: "Statistik"
 }
-const DefaultView = () => {
+const DefaultView = ({setAppState}) => {
     const [state, setState] = useState(DefaultViewStates.HOME);
     const currentView = () => {
         switch (state) {
             case DefaultViewStates.HOME:
-                return (<HomeView/>)
+                return (<HomeView setAppState={setAppState}/>)
             case DefaultViewStates.STATS:
                 return (<StatsView/>)
         }

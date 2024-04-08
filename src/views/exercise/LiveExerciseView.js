@@ -4,8 +4,9 @@ import LiveExerciseImage from "./components/LiveExerciseImage";
 import {useEffect, useState} from "react";
 import RoundButton from "../../components/RoundButton";
 import Header from "../../components/Header";
+import {AppStates} from "../../App";
 
-const LiveExerciseView = ({exercise_time}) => {
+const LiveExerciseView = ({exercise_time, setAppState}) => {
     const [animationPaused, setAnimationPaused] = useState(false);
     const [time, setTime] = useState(exercise_time * 1000); // Time in milliseconds
     const increment = 10;
@@ -32,7 +33,7 @@ const LiveExerciseView = ({exercise_time}) => {
     };
     return (
         <div className="exercise-view">
-            <Header title={"1 von 8"}/>
+            <Header title={"1 von 8"} setAppState={setAppState} appStateOnClose={AppStates.PROGRAM_VIEW}/>
             <div className="exercise">
                 <LiveExerciseImage time={exercise_time} perc_done={percentageDone} animationPaused={animationPaused}/>
                 <div className="exercise-name">
@@ -45,15 +46,15 @@ const LiveExerciseView = ({exercise_time}) => {
             <div className="controls">
                 <div className="control-panel">
                     <div className="control-button">
-                        <RoundButton icon={faBackward} size={3}/>
+                        <RoundButton icon={faBackward} size={3} color={"black"}/>
                     </div>
                     <div className="control-button">
                         {animationPaused ?
-                            <RoundButton icon={faPlay} size={5} onClick={toggleAnimation}/> :
-                            <RoundButton icon={faPause} size={5} onClick={toggleAnimation}/>}
+                            <RoundButton icon={faPlay} size={5} color={"black"} onClick={toggleAnimation}/> :
+                            <RoundButton icon={faPause} size={5} color={"black"} onClick={toggleAnimation}/>}
                     </div>
                     <div className="control-button">
-                        <RoundButton icon={faForward} size={3}/>
+                        <RoundButton icon={faForward} size={3} color={"black"}/>
                     </div>
                 </div>
             </div>
