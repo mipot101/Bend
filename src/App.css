@@ -38,25 +38,28 @@
     }
 }
 
+:root {
+    --doc-height: 100%;
+}
+
 body {
     font-family: 'Poppins', Helvetica, Arial, sans-serif;
 }
 
+
 /* disable horizontal scrolling */
 html, body {
     overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    height: 100vh; /* fallback for Js load */
+    height: var(--doc-height);
 }
 
 html {
     overflow: hidden;
-    height: 100vh;
 }
 
-@supports (-webkit-fill-available: inherit) {
-    html {
-        width: -webkit-fill-available; /* Use -webkit-fill-available for WebKit-based browsers */
-    }
-}
 
 body {
     position: relative;

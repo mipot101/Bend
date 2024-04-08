@@ -23,6 +23,14 @@ function App() {
                 return (<LiveExerciseView exercise_time={20}/>)
         }
     }
+    /* Set the window height of html and body automatically, to solve mobile browser issues */
+    const documentHeight = () => {
+        const doc = document.documentElement
+        doc.style.setProperty('--doc-height', `${window.innerHeight}px`)
+        console.log(window.innerHeight)
+    }
+    window.addEventListener('resize', documentHeight)
+    documentHeight()
     return (
         <div className="App">
             {currentView()}
