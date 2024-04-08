@@ -1,0 +1,56 @@
+.home-view-my-history-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    padding-top: 3rem;
+}
+
+.home-view-my-history-list-title {
+    margin-bottom: 0.5rem;
+    color: gray;
+    margin-left: 1rem
+}
+
+.home-view-my-history-list {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.home-view-my-history-list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    flex-shrink: 0;
+    margin-left: 1rem;
+    margin-bottom: 0.6rem;
+    margin-top: 0.6rem;
+}
+
+.home-view-my-history-list-item-image {
+    padding: 0.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+}
+
+.home-view-my-history-list-item-text {
+    padding-left: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.home-view-my-history-list-item-duration {
+    font-size: 0.8rem;
+    color: gray;
+}
+
+.home-view-my-history-list-item-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding-top: 0.2rem;
+}

@@ -10,39 +10,6 @@
     /*border-color: lightgray;*/
 }
 
-.header {
-    position: relative;
-    height: 4rem;
-    align-self: flex-start;
-    width: 100%;
-
-    border-bottom-style: solid;
-    border-bottom-color: lightgray;
-    border-bottom-width: 1px;
-}
-
-
-.close-button {
-    /* Positioning */
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-
-.exercise-number {
-    /* Positioning */
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-
-
-    /* Visual */
-    font-size: 1.5rem;
-    font-weight: bold;
-}
 
 .exercise {
     width: 100%;

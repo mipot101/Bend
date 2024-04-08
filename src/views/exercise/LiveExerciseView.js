@@ -1,10 +1,11 @@
-import "./Exercise.css"
-import {faBackward, faForward, faInfo, faPause, faPlay, faXmark} from "@fortawesome/free-solid-svg-icons";
-import ExerciseImage from "../components/ExerciseImage";
+import "./LiveExerciseView.css"
+import {faBackward, faForward, faInfo, faPause, faPlay} from "@fortawesome/free-solid-svg-icons";
+import LiveExerciseImage from "./components/LiveExerciseImage";
 import {useEffect, useState} from "react";
-import RoundButton from "../components/RoundButton";
+import RoundButton from "../../components/RoundButton";
+import Header from "../../components/Header";
 
-const ExerciseView = ({exercise_time}) => {
+const LiveExerciseView = ({exercise_time}) => {
     const [animationPaused, setAnimationPaused] = useState(false);
     const [time, setTime] = useState(exercise_time * 1000); // Time in milliseconds
     const increment = 10;
@@ -31,18 +32,9 @@ const ExerciseView = ({exercise_time}) => {
     };
     return (
         <div className="exercise-view">
-            <div className="header">
-                <div className="close-button">
-                    <RoundButton icon={faXmark} size={2} onClick={() => {
-                    }}/>
-                </div>
-                <div className="exercise-number-container">
-                    <div className="exercise-number">1 von 8</div>
-                </div>
-            </div>
-
+            <Header title={"1 von 8"}/>
             <div className="exercise">
-                <ExerciseImage time={exercise_time} perc_done={percentageDone} animationPaused={animationPaused}/>
+                <LiveExerciseImage time={exercise_time} perc_done={percentageDone} animationPaused={animationPaused}/>
                 <div className="exercise-name">
                     <p style={{paddingRight: "1rem"}}>Nach Oben Greifen</p>
                     <RoundButton icon={faInfo} size={1} onClick={() => {
@@ -69,4 +61,4 @@ const ExerciseView = ({exercise_time}) => {
     );
 }
 
-export default ExerciseView;
+export default LiveExerciseView;

@@ -1,12 +1,12 @@
-import myImage from "../icons/Nach_Oben_Greifen.png";
-import "./ExerciseImage.css";
+import myImage from "../../../icons/Nach_Oben_Greifen.png";
+import "./LiveExerciseImage.css";
 
-const ExerciseImage = ({time, animationPaused, perc_done}) => {
+const LiveExerciseImage = ({time, animationPaused, perc_done}) => {
 
     return (
-        <div className="exercise-container">
-            <div className="exercise-timer">
-                <div className="exercise-image" style={{backgroundImage: `url(${myImage})`}}/>
+        <div className="live-exercise-container">
+            <div className="live-exercise-timer">
+                <div className="live-exercise-image" style={{backgroundImage: `url(${myImage})`}}/>
                 <div className="moving-circle" style={{animationDuration: `15s`}}
                      style={{
                          animationDuration: `${time}s`,
@@ -19,4 +19,4 @@ const ExerciseImage = ({time, animationPaused, perc_done}) => {
     )
 }
 
-export default ExerciseImage;
+export default LiveExerciseImage;

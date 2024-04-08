@@ -1,4 +1,4 @@
-.exercise-container {
+.live-exercise-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,7 +6,7 @@
     padding-bottom: 1rem;
 }
 
-.exercise-timer {
+.live-exercise-timer {
     position: relative;
     width: 36vh; /* Adjust size as needed */
     height: 36vh; /* Adjust size as needed */
@@ -14,7 +14,7 @@
     border: 0.6rem solid lightgray; /* Sets border color and thickness */
 }
 
-.exercise-image {
+.live-exercise-image {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -42,6 +42,14 @@
     /*animation-iteration-count: 1;*/
     /*animation-fill-mode: forwards;*/
     /*animation-play-state: running; !* Initially running *!*/
+
+    /*border-style: solid;*/
+    /*border-color: white;*/
+    /*border-width: 1rem;*/
+    outline-color: white;
+    outline-style: solid;
+    outline-width: 0.2rem;
+
 }
 
 @keyframes move-around-border {

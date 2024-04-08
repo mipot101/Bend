@@ -1,0 +1,33 @@
+.exercise-program {
+    display: flex;
+    flex-direction: column;
+}
+
+.exercise-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.exercise-program-blur {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 6rem;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.6) 90%);
+}
+
+.exercise-start-button {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 2rem;
+    right: 2rem;
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    border-style: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+    background-color: white;
+    color: gray;
+    font-weight: bold;
+    font-size: 1rem;
+}

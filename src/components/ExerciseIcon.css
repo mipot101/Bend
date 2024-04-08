@@ -1,0 +1,8 @@
+.exercise-image {
+    width: 3rem; /* Set your desired width */
+    height: 3rem; /* Set your desired height */
+    border-radius: 50%; /* Makes the div circular */
+    background-size: cover; /* Ensures the image covers the entire div */
+    background-position: center; /* Centers the image within the div */
+    /* Add any additional styling you need */
+}

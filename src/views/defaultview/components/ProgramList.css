@@ -1,0 +1,55 @@
+.home-view-my-program-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    padding-top: 1rem;
+}
+
+.home-view-my-program-list-title {
+    margin-bottom: 0.5rem;
+    color: gray;
+    margin-left: 1rem
+}
+
+.home-view-my-program-list {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.home-view-my-program-list-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+
+    flex-shrink: 0;
+    width: 50vw;
+    margin: 0.6rem;
+    /*border-style: solid;*/
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow effect */
+}
+
+.home-view-my-program-list-item:first-child {
+    margin-left: 1rem
+}
+
+.home-view-my-program-list-item:last-child {
+    margin-right: 1rem
+}
+
+.home-view-my-program-list-item-title {
+    padding-top: 0.8rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.home-view-my-program-list-item-duration {
+    padding-top: 0.8rem;
+    font-size: 1rem;
+    color: gray;
+}

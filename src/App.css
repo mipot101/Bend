@@ -1,5 +1,6 @@
 .App {
     text-align: center;
+    height: 100%;
 }
 
 .App-logo {
@@ -39,5 +40,26 @@
 
 body {
     font-family: 'Poppins', Helvetica, Arial, sans-serif;
+}
+
+/* disable horizontal scrolling */
+html, body {
+    overflow-x: hidden;
+}
+
+html {
+    overflow: hidden;
+    height: 100vh;
+}
+
+@supports (-webkit-fill-available: inherit) {
+    html {
+        width: -webkit-fill-available; /* Use -webkit-fill-available for WebKit-based browsers */
+    }
+}
+
+body {
+    position: relative;
+    height: 100%;
 }
 
