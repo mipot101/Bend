@@ -3,6 +3,10 @@ import LiveExerciseView from "./views/exercise/LiveExerciseView";
 import {useState} from "react";
 import ExerciseProgram from "./views/exerciseprogram/ExerciseProgram";
 import DefaultView from "./views/defaultview/DefaultView";
+import NachObenGreifen from "./icons/Nach_Oben_Greifen.png"
+import ZehenBeruhren from "./icons/Zehen_Beruehren.png"
+import BreiteBeinbeuge from "./icons/Breite_Beinbeuge.png"
+import SeitlicherAusfallschritt from "./icons/Seitlicher_Ausfallschritt.png"
 
 export const AppStates = {
     DEFAULT_VIEW: 0,
@@ -10,18 +14,31 @@ export const AppStates = {
     LIVE_EXERCISE_VIEW: 2
 }
 
-export const ExerciseSet = {}
+export class Exercise {
+    constructor(name, image, duration) {
+        this.name = name;
+        this.image = image;
+        this.duration = duration;
+    }
+}
 
 function App() {
-    const [appState, setAppState] = useState(AppStates.LIVE_EXERCISE_VIEW);
-    const [currentExerciseSet, setCurrentExerciseSet] = useState(null);
+    const defaultExerciseSet = [
+        new Exercise("Nach Oben Greifen", NachObenGreifen, 30),
+        new Exercise("Zehen Berühren", ZehenBeruhren, 45),
+        new Exercise("Breite Beinbeuge", BreiteBeinbeuge, 45),
+        new Exercise("Seitlicher Ausfallschritt", SeitlicherAusfallschritt, 60),
+    ]
+    const [appState, setAppState] = useState(AppStates.DEFAULT_VIEW);
+    const [currentExerciseSet, setCurrentExerciseSet] = useState(defaultExerciseSet);
     const [currentExercise, setCurrentExercise] = useState(null);
+
     const currentView = () => {
         switch (appState) {
             case AppStates.DEFAULT_VIEW:
                 return (<DefaultView setAppState={setAppState}/>)
             case AppStates.PROGRAM_VIEW:
-                return (<ExerciseProgram setAppState={setAppState}/>)
+                return (<ExerciseProgram setAppState={setAppState} exerciseSet={currentExerciseSet}/>)
             case AppStates.LIVE_EXERCISE_VIEW:
                 return (<LiveExerciseView exercise_time={20} setAppState={setAppState}/>)
         }
