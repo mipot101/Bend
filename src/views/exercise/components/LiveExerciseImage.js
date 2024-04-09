@@ -1,18 +1,51 @@
-import myImage from "../../../icons/Nach_Oben_Greifen.png";
 import "./LiveExerciseImage.css";
+import {useEffect, useRef} from "react";
 
-const LiveExerciseImage = ({time, animationPaused, perc_done}) => {
+const LiveExerciseImage = ({
+                               duration,
+                               image,
+                               animationPaused,
+                               percentageDone,
+                               animationPausedStart,
+                               setAnimationPausedStart,
+                               totalPauseTime,
+                               setTotalPauseTime,
+                               startTime,
+                               setStartTime
+                           }) => {
+    const animatedCircle = useRef();
+
+    useEffect(() => {
+        if (animationPausedStart == null && animationPaused) {
+            setAnimationPausedStart(performance.now())
+        }
+    }, [animationPausedStart, animationPaused]);
+
+    useEffect(() => {
+        if (animationPausedStart !== null && !animationPaused) {
+            setTotalPauseTime((prevPauseTime) => prevPauseTime + performance.now() - animationPausedStart)
+            setAnimationPausedStart(null)
+        }
+    }, [animationPausedStart, animationPaused]);
 
     return (
         <div className="live-exercise-container">
             <div className="live-exercise-timer">
-                <div className="live-exercise-image" style={{backgroundImage: `url(${myImage})`}}/>
-                <div className="moving-circle" style={{animationDuration: `15s`}}
+                <div className="live-exercise-image" style={{backgroundImage: `url(${image})`}}/>
+                <div className="moving-circle"
+                     ref={animatedCircle}
                      style={{
-                         animationDuration: `${time}s`,
+                         animationDuration: `${duration}s`,
                          animationPlayState: animationPaused ? 'paused' : 'running',
-                         '--degree': `${Math.floor(perc_done * 360)}deg`
-                     }}/>
+                         '--degree': `${Math.floor(percentageDone * 360)}deg`
+                     }}
+                     onAnimationEnd={() => {
+                         console.log(`Animation has ended after ${performance.now() - startTime - totalPauseTime}`);
+                     }}
+                     onAnimationStart={() => {
+                         setStartTime(performance.now())
+                     }}
+                />
             </div>
 
         </div>

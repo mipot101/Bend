@@ -36,12 +36,12 @@
     height: 0.8rem; /* Adjust size of the moving circle */
     border-radius: 50%; /* Makes the moving circle circular */
     background-color: black; /* Set color of the moving circle */
-    --degree: 0deg;
-    transform: rotate(var(--degree)) translateY(calc(-18vh - 0.3rem));
-    /*animation: move-around-border linear infinite; !* Adjust duration as needed *!*/
-    /*animation-iteration-count: 1;*/
-    /*animation-fill-mode: forwards;*/
-    /*animation-play-state: running; !* Initially running *!*/
+    /*--degree: 0deg;*/
+    /*transform: rotate(var(--degree)) translateY(calc(-18vh - 0.3rem));*/
+    animation: move-around-border linear infinite; /* Adjust duration as needed */
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running; /* Initially running */
 
     /*border-style: solid;*/
     /*border-color: white;*/
