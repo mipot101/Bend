@@ -9,15 +9,16 @@
 .home-view-my-program-list-title {
     margin-bottom: 0.5rem;
     color: gray;
-    margin-left: 1rem
+    margin-left: 1rem;
 }
 
 .home-view-my-program-list {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: calc(100vw - 1rem);
     overflow-x: auto;
     scrollbar-width: none;
+    padding-right: 1rem;
 }
 
 .home-view-my-program-list-item {
@@ -38,11 +39,11 @@
 }
 
 .home-view-my-program-list-item:first-child {
-    margin-left: 1rem
+    margin-left: 1rem;
 }
 
 .home-view-my-program-list-item:last-child {
-    margin-right: 1rem
+    margin-right: 0;
 }
 
 .home-view-my-program-list-item-title {
