@@ -58,7 +58,8 @@ function App() {
             case AppStates.DEFAULT_VIEW:
                 return (<DefaultView setAppState={setAppState}/>)
             case AppStates.PROGRAM_VIEW:
-                return (<ExerciseProgram setAppState={setAppState} exerciseSet={currentExerciseSet}/>)
+                return (<ExerciseProgram setAppState={setAppState} exerciseSet={currentExerciseSet}
+                                         setExerciseSet={setCurrentExerciseSet}/>)
             case AppStates.LIVE_EXERCISE_VIEW:
                 return (<LiveExerciseView exerciseNumber={currentExerciseNumber}
                                           moveToPreviousExercise={moveToPreviousExercise}
