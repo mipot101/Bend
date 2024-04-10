@@ -1,5 +1,5 @@
 import "./LiveExerciseView.css"
-import {faBackward, faForward, faInfo, faPause, faPlay} from "@fortawesome/free-solid-svg-icons";
+import {faBackward, faCheck, faForward, faInfo, faPause, faPlay} from "@fortawesome/free-solid-svg-icons";
 import LiveExerciseImage from "./components/LiveExerciseImage";
 import {useEffect, useState} from "react";
 import RoundButton from "../../components/RoundButton";
@@ -19,8 +19,41 @@ const LiveExerciseView = ({
     const [startTime, setStartTime] = useState(null);
     const [totalPauseTime, setTotalPauseTime] = useState(0);
     const [animationPausedStart, setAnimationPausedStart] = useState(null);
-    const [timeLeft, setTimeLeft] = useState(exerciseDuration);
+    const [timeLeft, setTimeLeft] = useState(exerciseDuration * 1000); //Time left in ms
+    const [animationActive, setAnimationActive] = useState(true);
     const currentTime = () => (animationPaused ? animationPausedStart : performance.now()) - startTime - totalPauseTime;
+
+    const restartAnimation = () => {
+        setAnimationActive(false);
+        setTimeout(() => setAnimationActive(true), 10);
+    }
+
+    const backwardButtonOnClick = () => {
+        if (Math.abs(timeLeft - exerciseDuration * 1000) < 1000) {
+            moveToPreviousExercise()
+        } else {
+            restartAnimation()
+        }
+    }
+
+    const moveToNextExerciseAndResetTimers = () => {
+        if (exerciseNumber < currentExerciseSet.length - 1) {
+            moveToNextExercise()
+            restartAnimation()
+        } else {
+            setAppState(AppStates.PROGRAM_VIEW)
+        }
+    }
+
+    useEffect(() => {
+        setTimeLeft(exerciseDuration * 1000)
+        setTotalPauseTime(0)
+        if (animationPaused) {
+            setAnimationPausedStart(performance.now())
+        } else {
+            setAnimationPausedStart(null)
+        }
+    }, [exerciseDuration, animationActive]);
 
     useEffect(() => {
         let timer;
@@ -58,10 +91,12 @@ const LiveExerciseView = ({
                                    setTotalPauseTime={setTotalPauseTime}
                                    startTime={startTime}
                                    setStartTime={setStartTime}
+                                   animationActive={animationActive}
+                                   moveToNextExercise={moveToNextExerciseAndResetTimers}
                 />
                 <div className="exercise-name">
-                    <p style={{paddingRight: "1rem"}}>Nach Oben Greifen</p>
-                    <RoundButton icon={faInfo} size={1} onClick={() => {
+                    <p style={{paddingRight: "1rem"}}>{exercise.name}</p>
+                    <RoundButton icon={faInfo} size={1.5} onClick={() => {
                     }}/>
                 </div>
             </div>
@@ -69,16 +104,24 @@ const LiveExerciseView = ({
             <div className="controls">
                 <div className="control-panel">
                     <div className="control-button">
-                        <RoundButton icon={faBackward} size={3} color={"black"} onClick={moveToPreviousExercise}/>
+                        <RoundButton icon={faBackward} size={3} color={"black"} onClick={backwardButtonOnClick}/>
                     </div>
                     <div className="control-button">
                         {animationPaused ?
                             <RoundButton icon={faPlay} size={5} color={"black"} onClick={toggleAnimation}/> :
                             <RoundButton icon={faPause} size={5} color={"black"} onClick={toggleAnimation}/>}
                     </div>
-                    <div className="control-button">
-                        <RoundButton icon={faForward} size={3} color={"black"} onClick={moveToNextExercise}/>
-                    </div>
+                    {exerciseNumber < currentExerciseSet.length - 1 ?
+                        <div className="control-button">
+                            <RoundButton icon={faForward} size={3} color={"black"}
+                                         onClick={moveToNextExerciseAndResetTimers}/>
+                        </div>
+                        :
+                        <div className="control-button">
+                            <RoundButton icon={faCheck} size={3} color={"green"}
+                                         onClick={() => setAppState(AppStates.PROGRAM_VIEW)}/>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
