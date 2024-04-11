@@ -38,10 +38,10 @@ const useExerciseNumber = () => {
 
 function App() {
     const defaultExerciseSet = [
-        new Exercise("Nach Oben Greifen", NachObenGreifen, 10),
-        new Exercise("Zehen Berühren", ZehenBeruhren, 45),
-        new Exercise("Breite Beinbeuge", BreiteBeinbeuge, 45),
-        new Exercise("Seitlicher Ausfallschritt", SeitlicherAusfallschritt, 60),
+        new Exercise("Nach Oben Greifen", NachObenGreifen, 3),
+        new Exercise("Zehen Berühren", ZehenBeruhren, 4),
+        new Exercise("Breite Beinbeuge", BreiteBeinbeuge, 5),
+        new Exercise("Seitlicher Ausfallschritt", SeitlicherAusfallschritt, 6),
     ]
     const [appState, setAppState] = useState(AppStates.DEFAULT_VIEW);
     const [currentExerciseSet, setCurrentExerciseSet] = useState(defaultExerciseSet);
@@ -60,6 +60,7 @@ function App() {
             case AppStates.PROGRAM_VIEW:
                 return (<ExerciseProgram setAppState={setAppState} exerciseSet={currentExerciseSet}
                                          setExerciseSet={setCurrentExerciseSet}/>)
+            default:
             case AppStates.LIVE_EXERCISE_VIEW:
                 return (<LiveExerciseView exerciseNumber={currentExerciseNumber}
                                           moveToPreviousExercise={moveToPreviousExercise}

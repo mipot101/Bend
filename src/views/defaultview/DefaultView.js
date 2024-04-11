@@ -9,9 +9,10 @@ export const DefaultViewStates = {
     STATS: "Statistik"
 }
 const DefaultView = ({setAppState}) => {
-    const [state, setState] = useState(DefaultViewStates.STATS);
+    const [state, setState] = useState(DefaultViewStates.HOME);
     const currentView = () => {
         switch (state) {
+            default:
             case DefaultViewStates.HOME:
                 return (<HomeView setAppState={setAppState}/>)
             case DefaultViewStates.STATS:
