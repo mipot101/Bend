@@ -11,7 +11,17 @@ import SeitlicherAusfallschritt from "./icons/Seitlicher_Ausfallschritt.png"
 export const AppStates = {
     DEFAULT_VIEW: 0,
     PROGRAM_VIEW: 1,
-    LIVE_EXERCISE_VIEW: 2
+    LIVE_EXERCISE_RUNNING: 2,
+    LIVE_EXERCISE_STARTING: 3,
+    LIVE_EXERCISE_SWITCHING: 4,
+
+    isLive: (state) => {
+        return (
+            state === AppStates.LIVE_EXERCISE_RUNNING ||
+            state === AppStates.LIVE_EXERCISE_STARTING ||
+            state === AppStates.LIVE_EXERCISE_SWITCHING
+        );
+    }
 }
 
 export class Exercise {
@@ -48,10 +58,10 @@ function App() {
     const [currentExerciseNumber, moveToPreviousExercise, moveToNextExercise, resetExercise] = useExerciseNumber();
 
     useEffect(() => {
-        if (appState !== AppStates.LIVE_EXERCISE_VIEW) {
+        if (!AppStates.isLive(appState)) {
             resetExercise()
         }
-    }, [appState]);
+    }, [appState, resetExercise]);
 
     const currentView = () => {
         switch (appState) {
@@ -61,7 +71,7 @@ function App() {
                 return (<ExerciseProgram setAppState={setAppState} exerciseSet={currentExerciseSet}
                                          setExerciseSet={setCurrentExerciseSet}/>)
             default:
-            case AppStates.LIVE_EXERCISE_VIEW:
+            case AppStates.LIVE_EXERCISE_RUNNING:
                 return (<LiveExerciseView exerciseNumber={currentExerciseNumber}
                                           moveToPreviousExercise={moveToPreviousExercise}
                                           moveToNextExercise={moveToNextExercise}
