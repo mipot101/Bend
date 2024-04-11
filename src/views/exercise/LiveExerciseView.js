@@ -94,11 +94,11 @@ const LiveExerciseView = ({
                                    animationActive={animationActive}
                                    moveToNextExercise={moveToNextExerciseAndResetTimers}
                 />
-                <div className="exercise-name">
-                    <p style={{paddingRight: "1rem"}}>{exercise.name}</p>
-                    <RoundButton icon={faInfo} size={1.5} onClick={() => {
-                    }}/>
-                </div>
+            </div>
+            <div className="exercise-name">
+                <p style={{paddingRight: "1rem"}}>{exercise.name}</p>
+                <RoundButton icon={faInfo} size={1.5} onClick={() => {
+                }}/>
             </div>
             <div className="timer">{minutes}:{seconds < 10 ? '0' + seconds : seconds}</div>
             <div className="controls">
