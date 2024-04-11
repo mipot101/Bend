@@ -1,8 +1,13 @@
+import Bendometer from "./Bendometer";
+import Stats from "./Stats";
+
 const StatsView = () => {
     return (
-        <div>
-            StatsView
+        <div className="stats-view-container">
+            <Bendometer/>
+            <Stats/>
         </div>
+
     )
 }
 

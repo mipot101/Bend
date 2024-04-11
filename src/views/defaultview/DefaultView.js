@@ -9,7 +9,7 @@ export const DefaultViewStates = {
     STATS: "Statistik"
 }
 const DefaultView = ({setAppState}) => {
-    const [state, setState] = useState(DefaultViewStates.HOME);
+    const [state, setState] = useState(DefaultViewStates.STATS);
     const currentView = () => {
         switch (state) {
             case DefaultViewStates.HOME:

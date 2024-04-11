@@ -1,0 +1,85 @@
+.bendometer {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+}
+
+.half-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: bottom;
+    --degree: 40deg;
+    transform: translate(-50%, -100%) rotate(var(--degree));
+    /*height: 10rem;*/
+    width: 80%;
+    aspect-ratio: 2;
+    border-radius: 50rem 50rem 0 0;
+    background-color: lightgray;
+}
+
+.full-circle {
+    /* Positioning */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* Shape and color */
+    width: 72%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: white;
+
+    /* Position children */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.bendometer-round-ends {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    --degree: 45deg;
+    transform: translate(-50%, -50%) rotate(var(--degree)) translateY(38vw);
+    width: 4%; /* Adjust size of the moving circle */
+    aspect-ratio: 1;
+    border-radius: 50%; /* Makes the moving circle circular */
+    background-color: lightgray; /* Set color of the moving circle */
+}
+
+.bendometer-moving-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    --degree: 45deg;
+    transform: translate(-50%, -50%) rotate(var(--degree)) translateY(38vw);
+    width: 4%; /* Adjust size of the moving circle */
+    aspect-ratio: 1;
+    border-radius: 50%; /* Makes the moving circle circular */
+    background-color: black; /* Set color of the moving circle */
+
+    outline-color: white;
+    outline-style: solid;
+    outline-width: 0.2rem;
+}
+
+.bendometer-content-title {
+    margin-top: 10%;
+    color: gray;
+    font-weight: bold;
+    font-size: 4vw;
+}
+
+.bendometer-content-percentage {
+    font-weight: bold;
+    font-size: 18vw;
+    color: black;
+}
+
+.bendometer-content-next-gain {
+    margin-bottom: 13%;
+    color: gray;
+    font-size: 4vw;
+}

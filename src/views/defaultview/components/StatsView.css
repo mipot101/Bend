@@ -1,0 +1,4 @@
+.stats-view-container {
+    display: flex;
+    flex-direction: column;
+}
