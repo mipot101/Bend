@@ -11,6 +11,7 @@ const LiveExerciseView = ({
                               moveToNextExercise,
                               moveToPreviousExercise,
                               currentExerciseSet,
+                              appState,
                               setAppState
                           }) => {
     const exercise = currentExerciseSet[exerciseNumber]
@@ -20,7 +21,7 @@ const LiveExerciseView = ({
     const [totalPauseTime, setTotalPauseTime] = useState(0);
     const [animationPausedStart, setAnimationPausedStart] = useState(null);
     const [timeLeft, setTimeLeft] = useState(exerciseDuration * 1000); //Time left in ms
-    const [animationActive, setAnimationActive] = useState(true);
+    const [animationActive, setAnimationActive] = useState(appState === AppStates.LIVE_EXERCISE_RUNNING);
     const currentTime = () => (animationPaused ? animationPausedStart : performance.now()) - startTime - totalPauseTime;
 
     const restartAnimation = () => {
@@ -57,7 +58,7 @@ const LiveExerciseView = ({
 
     useEffect(() => {
         let timer;
-        if (timeLeft > 0) {
+        if (timeLeft > 0 && appState === AppStates.LIVE_EXERCISE_RUNNING) {
             timer = setInterval(() => {
                 setTimeLeft(Math.max(exerciseDuration * 1000 - currentTime(), 0));
             }, 100);

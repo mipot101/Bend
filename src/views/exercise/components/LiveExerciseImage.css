@@ -2,15 +2,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 1rem;
-    overflow: hidden;
+    /*padding-bottom: 1rem;*/
+    overflow: visible;
     height: 100%;
 }
 
 .live-exercise-timer {
     position: relative;
     height: clamp(0vh, 36vh, 36vh);
-    /*max-height: 36vh; !* Adjust size as needed *!*/
     aspect-ratio: 1;
     border-radius: 50%; /* Makes the div circular */
     border: 0.6rem solid lightgray; /* Sets border color and thickness */

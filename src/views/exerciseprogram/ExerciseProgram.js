@@ -14,7 +14,7 @@ const ExerciseProgram = ({setAppState, exerciseSet, setExerciseSet}) => {
         </div>
         <div className="exercise-program-blur"/>
         <button className="exercise-start-button" onClick={() => {
-            setAppState(AppStates.LIVE_EXERCISE_RUNNING)
+            setAppState(AppStates.LIVE_EXERCISE_STARTING)
         }}>
             BEGINNEN
         </button>
