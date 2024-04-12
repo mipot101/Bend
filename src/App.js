@@ -8,6 +8,7 @@ import ZehenBeruhren from "./icons/Zehen_Beruehren.png"
 import BreiteBeinbeuge from "./icons/Breite_Beinbeuge.png"
 import SeitlicherAusfallschritt from "./icons/Seitlicher_Ausfallschritt.png"
 import LiveExerciseViewStartingWrapper from "./views/exercise/LiveExerciseViewStartingWrapper";
+import LiveExerciseViewSwitchingWrapper from "./views/exercise/LiveExerciseViewSwitchingWrapper";
 
 export const AppStates = {
     DEFAULT_VIEW: 0,
@@ -54,7 +55,7 @@ function App() {
         new Exercise("Breite Beinbeuge", BreiteBeinbeuge, 5),
         new Exercise("Seitlicher Ausfallschritt", SeitlicherAusfallschritt, 6),
     ]
-    const [appState, setAppState] = useState(AppStates.LIVE_EXERCISE_STARTING);
+    const [appState, setAppState] = useState(AppStates.LIVE_EXERCISE_SWITCHING);
     const [currentExerciseSet, setCurrentExerciseSet] = useState(defaultExerciseSet);
     const [currentExerciseNumber, moveToPreviousExercise, moveToNextExercise, resetExercise] = useExerciseNumber();
 
@@ -80,6 +81,12 @@ function App() {
                                                          appState={appState}
                                                          setAppState={setAppState}/>)
             case AppStates.LIVE_EXERCISE_SWITCHING:
+                return (<LiveExerciseViewSwitchingWrapper exerciseNumber={currentExerciseNumber}
+                                                          moveToPreviousExercise={moveToPreviousExercise}
+                                                          moveToNextExercise={moveToNextExercise}
+                                                          currentExerciseSet={currentExerciseSet}
+                                                          appState={appState}
+                                                          setAppState={setAppState}/>)
             case AppStates.LIVE_EXERCISE_RUNNING:
                 return (<LiveExerciseView exerciseNumber={currentExerciseNumber}
                                           moveToPreviousExercise={moveToPreviousExercise}

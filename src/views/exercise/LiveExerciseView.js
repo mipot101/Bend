@@ -40,6 +40,7 @@ const LiveExerciseView = ({
     const moveToNextExerciseAndResetTimers = () => {
         if (exerciseNumber < currentExerciseSet.length - 1) {
             moveToNextExercise()
+            setAppState(AppStates.LIVE_EXERCISE_SWITCHING);
             restartAnimation()
         } else {
             setAppState(AppStates.PROGRAM_VIEW)
