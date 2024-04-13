@@ -1,5 +1,12 @@
 import {useCallback, useEffect, useState} from "react";
 
+export const CountdownStates = {
+    RUNNING: 0,
+    OFF: 1,
+    PAUSED: 2,
+    FINISHED: 3
+}
+
 const useCountdown = (totalTime, initiallyRunning, onFinish) => {
     /**
      * It needs to be tried to change the state as little as possible.
@@ -38,12 +45,14 @@ const useCountdown = (totalTime, initiallyRunning, onFinish) => {
         }
     }, [timeLeft, onFinish]);
 
-    const start = () => {
+    const start = useCallback(() => {
         setStarted(true)
         setPaused(false)
         setStartTime(performance.now())
+        setTotalPauseTime(0)
+        setPauseStartTime(null)
         console.log("Starting")
-    }
+    }, [setStarted, setPaused, setStartTime])
 
     const pause = useCallback(() => {
         if (started === true) {
@@ -73,14 +82,11 @@ const useCountdown = (totalTime, initiallyRunning, onFinish) => {
     const restart = useCallback(() => {
         setStarted(false)
         setTimeout(() => {
-            setStarted(true)
-            setStartTime(performance.now())
-            setTotalPauseTime(0)
-            setPauseStartTime(null)
+            start()
         }, 10);
-    }, [setStarted])
+    }, [setStarted, start])
 
-    return [timeLeft, paused, started, pause, resume, start, restart]
+    return {timeLeft, paused, started, pause, resume, start, restart}
 }
 
 export default useCountdown;

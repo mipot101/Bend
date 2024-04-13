@@ -7,22 +7,12 @@ import NachObenGreifen from "./icons/Nach_Oben_Greifen.png"
 import ZehenBeruhren from "./icons/Zehen_Beruehren.png"
 import BreiteBeinbeuge from "./icons/Breite_Beinbeuge.png"
 import SeitlicherAusfallschritt from "./icons/Seitlicher_Ausfallschritt.png"
-import LiveExerciseViewSwitchingWrapper from "./views/exercise/LiveExerciseViewSwitchingWrapper";
 
 export const AppStates = {
     DEFAULT_VIEW: 0,
     PROGRAM_VIEW: 1,
-    LIVE_EXERCISE_RUNNING: 2,
-    LIVE_EXERCISE_STARTING: 3,
-    LIVE_EXERCISE_SWITCHING: 4,
+    LIVE_EXERCISE_VIEW: 2,
 
-    isLive: (state) => {
-        return (
-            state === AppStates.LIVE_EXERCISE_RUNNING ||
-            state === AppStates.LIVE_EXERCISE_STARTING ||
-            state === AppStates.LIVE_EXERCISE_SWITCHING
-        );
-    }
 }
 
 export class Exercise {
@@ -33,13 +23,21 @@ export class Exercise {
     }
 }
 
-const useExerciseNumber = () => {
+const useExerciseNumber = (exerciseSetLength, setAppState) => {
     const [currentExerciseNumber, setCurrentExerciseNumber] = useState(0);
     const moveToNextExercise = () => {
-        setCurrentExerciseNumber((prev_number) => prev_number + 1)
+        setCurrentExerciseNumber((prevNumber) => {
+            const nextExercise = prevNumber + 1
+            if (nextExercise < exerciseSetLength) {
+                return nextExercise
+            } else {
+                setAppState(AppStates.PROGRAM_VIEW)
+                return exerciseSetLength - 1
+            }
+        })
     }
     const moveToPreviousExercise = () => {
-        setCurrentExerciseNumber((prev_number) => prev_number > 0 ? prev_number - 1 : 0)
+        setCurrentExerciseNumber((prevNumber) => prevNumber > 0 ? prevNumber - 1 : 0)
     }
     const resetExercise = () => {
         setCurrentExerciseNumber(0)
@@ -49,17 +47,17 @@ const useExerciseNumber = () => {
 
 function App() {
     const defaultExerciseSet = [
-        new Exercise("Nach Oben Greifen", NachObenGreifen, 3),
-        new Exercise("Zehen Berühren", ZehenBeruhren, 4),
-        new Exercise("Breite Beinbeuge", BreiteBeinbeuge, 5),
-        new Exercise("Seitlicher Ausfallschritt", SeitlicherAusfallschritt, 6),
+        new Exercise("Nach Oben Greifen", NachObenGreifen, 10),
+        new Exercise("Zehen Berühren", ZehenBeruhren, 10),
+        new Exercise("Breite Beinbeuge", BreiteBeinbeuge, 10),
+        new Exercise("Seitlicher Ausfallschritt", SeitlicherAusfallschritt, 10),
     ]
-    const [appState, setAppState] = useState(AppStates.LIVE_EXERCISE_STARTING);
+    const [appState, setAppState] = useState(AppStates.LIVE_EXERCISE_VIEW);
     const [currentExerciseSet, setCurrentExerciseSet] = useState(defaultExerciseSet);
-    const [currentExerciseNumber, moveToPreviousExercise, moveToNextExercise, resetExercise] = useExerciseNumber();
+    const [currentExerciseNumber, moveToPreviousExercise, moveToNextExercise, resetExercise] = useExerciseNumber(currentExerciseSet.length, setAppState);
 
     useEffect(() => {
-        if (!AppStates.isLive(appState)) {
+        if (appState !== AppStates.LIVE_EXERCISE_VIEW) {
             resetExercise()
         }
     }, [appState, resetExercise]);
@@ -72,20 +70,11 @@ function App() {
             case AppStates.PROGRAM_VIEW:
                 return (<ExerciseProgram setAppState={setAppState} exerciseSet={currentExerciseSet}
                                          setExerciseSet={setCurrentExerciseSet}/>)
-            case AppStates.LIVE_EXERCISE_SWITCHING:
-                return (<LiveExerciseViewSwitchingWrapper exerciseNumber={currentExerciseNumber}
-                                                          moveToPreviousExercise={moveToPreviousExercise}
-                                                          moveToNextExercise={moveToNextExercise}
-                                                          currentExerciseSet={currentExerciseSet}
-                                                          appState={appState}
-                                                          setAppState={setAppState}/>)
-            case AppStates.LIVE_EXERCISE_STARTING:
-            case AppStates.LIVE_EXERCISE_RUNNING:
+            case AppStates.LIVE_EXERCISE_VIEW:
                 return (<LiveExerciseView exerciseNumber={currentExerciseNumber}
                                           moveToPreviousExercise={moveToPreviousExercise}
                                           moveToNextExercise={moveToNextExercise}
                                           currentExerciseSet={currentExerciseSet}
-                                          appState={appState}
                                           setAppState={setAppState}/>)
         }
     }

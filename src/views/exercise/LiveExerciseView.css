@@ -6,7 +6,6 @@
     align-items: center;
 }
 
-
 .exercise {
     width: 100%;
     margin-top: clamp(4rem, calc(5% + 6rem), calc(5% + 6rem));
@@ -23,13 +22,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-}
-
-
-.timer {
-    font-size: 3rem;
-    font-weight: bold;
-    color: gray;
 }
 
 .controls {

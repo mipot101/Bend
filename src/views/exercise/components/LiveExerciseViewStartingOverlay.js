@@ -1,10 +1,6 @@
-import {AppStates} from "../../../App";
 import "./LiveExerciseViewStartingOverlay.css"
-import useCountdown from "../../../components/customhooks/useCountdown";
 
-const LiveExerciseViewStartingOverlay = ({setAppState}) => {
-    const onFinish = () => setAppState(AppStates.LIVE_EXERCISE_RUNNING)
-    const [timeLeft, ...rest] = useCountdown(3.999, true, onFinish)
+const LiveExerciseViewStartingOverlay = ({timeLeft}) => {
     const secondsLeft = Math.floor(timeLeft / 1000)
 
     return (
