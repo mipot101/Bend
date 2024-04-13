@@ -7,7 +7,6 @@ import NachObenGreifen from "./icons/Nach_Oben_Greifen.png"
 import ZehenBeruhren from "./icons/Zehen_Beruehren.png"
 import BreiteBeinbeuge from "./icons/Breite_Beinbeuge.png"
 import SeitlicherAusfallschritt from "./icons/Seitlicher_Ausfallschritt.png"
-import LiveExerciseViewStartingWrapper from "./views/exercise/LiveExerciseViewStartingWrapper";
 import LiveExerciseViewSwitchingWrapper from "./views/exercise/LiveExerciseViewSwitchingWrapper";
 
 export const AppStates = {
@@ -55,7 +54,7 @@ function App() {
         new Exercise("Breite Beinbeuge", BreiteBeinbeuge, 5),
         new Exercise("Seitlicher Ausfallschritt", SeitlicherAusfallschritt, 6),
     ]
-    const [appState, setAppState] = useState(AppStates.LIVE_EXERCISE_SWITCHING);
+    const [appState, setAppState] = useState(AppStates.LIVE_EXERCISE_STARTING);
     const [currentExerciseSet, setCurrentExerciseSet] = useState(defaultExerciseSet);
     const [currentExerciseNumber, moveToPreviousExercise, moveToNextExercise, resetExercise] = useExerciseNumber();
 
@@ -73,13 +72,6 @@ function App() {
             case AppStates.PROGRAM_VIEW:
                 return (<ExerciseProgram setAppState={setAppState} exerciseSet={currentExerciseSet}
                                          setExerciseSet={setCurrentExerciseSet}/>)
-            case AppStates.LIVE_EXERCISE_STARTING:
-                return (<LiveExerciseViewStartingWrapper exerciseNumber={currentExerciseNumber}
-                                                         moveToPreviousExercise={moveToPreviousExercise}
-                                                         moveToNextExercise={moveToNextExercise}
-                                                         currentExerciseSet={currentExerciseSet}
-                                                         appState={appState}
-                                                         setAppState={setAppState}/>)
             case AppStates.LIVE_EXERCISE_SWITCHING:
                 return (<LiveExerciseViewSwitchingWrapper exerciseNumber={currentExerciseNumber}
                                                           moveToPreviousExercise={moveToPreviousExercise}
@@ -87,6 +79,7 @@ function App() {
                                                           currentExerciseSet={currentExerciseSet}
                                                           appState={appState}
                                                           setAppState={setAppState}/>)
+            case AppStates.LIVE_EXERCISE_STARTING:
             case AppStates.LIVE_EXERCISE_RUNNING:
                 return (<LiveExerciseView exerciseNumber={currentExerciseNumber}
                                           moveToPreviousExercise={moveToPreviousExercise}
