@@ -1,19 +1,20 @@
 import './App.css';
-import LiveExerciseView from "./views/exercise/LiveExerciseView";
+import LiveExerciseView from "./views/liveexerciseview/LiveExerciseView";
 import {useEffect, useState} from "react";
-import ExerciseProgram from "./views/exerciseprogram/ExerciseProgram";
+import ExerciseProgram from "./views/programview/ExerciseProgram";
 import DefaultView from "./views/defaultview/DefaultView";
 import NachObenGreifen from "./icons/Nach_Oben_Greifen.png"
 import ZehenBeruhren from "./icons/Zehen_Beruehren.png"
 import BreiteBeinbeuge from "./icons/Breite_Beinbeuge.png"
 import SeitlicherAusfallschritt from "./icons/Seitlicher_Ausfallschritt.png"
 import {useExerciseNumber} from "./components/hooks/ExerciseNumber";
+import AddProgram from "./views/addprogrammview/AddProgram";
 
 export const AppStates = {
     DEFAULT_VIEW: 0,
     PROGRAM_VIEW: 1,
     LIVE_EXERCISE_VIEW: 2,
-
+    ADD_PROGRAM_VIEW: 3,
 }
 
 export class Exercise {
@@ -24,6 +25,7 @@ export class Exercise {
     }
 }
 
+
 function App() {
     const defaultExerciseSet = [
         new Exercise("Nach Oben Greifen", NachObenGreifen, 10),
@@ -31,7 +33,7 @@ function App() {
         new Exercise("Breite Beinbeuge", BreiteBeinbeuge, 10),
         new Exercise("Seitlicher Ausfallschritt", SeitlicherAusfallschritt, 10),
     ]
-    const [appState, setAppState] = useState(AppStates.LIVE_EXERCISE_VIEW);
+    const [appState, setAppState] = useState(AppStates.ADD_PROGRAM_VIEW);
     const [currentExerciseSet, setCurrentExerciseSet] = useState(defaultExerciseSet);
     const [currentExerciseNumber, moveToPreviousExercise, moveToNextExercise, resetExercise] = useExerciseNumber(currentExerciseSet.length, setAppState);
 
@@ -46,6 +48,8 @@ function App() {
             default:
             case AppStates.DEFAULT_VIEW:
                 return (<DefaultView setAppState={setAppState}/>)
+            case AppStates.ADD_PROGRAM_VIEW:
+                return (<AddProgram setAppState={setAppState}/>)
             case AppStates.PROGRAM_VIEW:
                 return (<ExerciseProgram setAppState={setAppState} exerciseSet={currentExerciseSet}
                                          setExerciseSet={setCurrentExerciseSet}/>)

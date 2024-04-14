@@ -1,0 +1,13 @@
+.exercise-duration-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.exercise-duration-display {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    color: gray;
+    font-size: 1rem;
+}

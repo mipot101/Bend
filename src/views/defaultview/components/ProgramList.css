@@ -6,10 +6,24 @@
     padding-top: 1rem;
 }
 
+.home-view-my-program-list-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    width: 100%;
+}
+
 .home-view-my-program-list-title {
-    margin-bottom: 0.5rem;
-    color: gray;
     margin-left: 1rem;
+    color: gray;
+    margin-right: auto;
+}
+
+.home-view-my-program-list-button {
+    margin-right: 1rem;
+    background-color: white;
+    border: none;
 }
 
 .home-view-my-program-list {
