@@ -1,4 +1,5 @@
 .default-header {
+    z-index: 1;
     position: sticky;
     top: 0px;
     display: flex;

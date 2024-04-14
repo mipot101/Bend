@@ -7,6 +7,7 @@ import NachObenGreifen from "./icons/Nach_Oben_Greifen.png"
 import ZehenBeruhren from "./icons/Zehen_Beruehren.png"
 import BreiteBeinbeuge from "./icons/Breite_Beinbeuge.png"
 import SeitlicherAusfallschritt from "./icons/Seitlicher_Ausfallschritt.png"
+import {useExerciseNumber} from "./components/hooks/ExerciseNumber";
 
 export const AppStates = {
     DEFAULT_VIEW: 0,
@@ -21,28 +22,6 @@ export class Exercise {
         this.image = image;
         this.duration = duration;
     }
-}
-
-const useExerciseNumber = (exerciseSetLength, setAppState) => {
-    const [currentExerciseNumber, setCurrentExerciseNumber] = useState(0);
-    const moveToNextExercise = () => {
-        setCurrentExerciseNumber((prevNumber) => {
-            const nextExercise = prevNumber + 1
-            if (nextExercise < exerciseSetLength) {
-                return nextExercise
-            } else {
-                setAppState(AppStates.PROGRAM_VIEW)
-                return exerciseSetLength - 1
-            }
-        })
-    }
-    const moveToPreviousExercise = () => {
-        setCurrentExerciseNumber((prevNumber) => prevNumber > 0 ? prevNumber - 1 : 0)
-    }
-    const resetExercise = () => {
-        setCurrentExerciseNumber(0)
-    }
-    return [currentExerciseNumber, moveToPreviousExercise, moveToNextExercise, resetExercise]
 }
 
 function App() {
