@@ -1,7 +1,7 @@
 import "./LiveExerciseViewStartingOverlay.css"
 
 const LiveExerciseViewStartingOverlay = ({timeLeft}) => {
-    const secondsLeft = Math.floor(timeLeft / 1000)
+    const secondsLeft = Math.floor(timeLeft)
 
     return (
         <div className="starting-overlay">

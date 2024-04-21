@@ -1,0 +1,11 @@
+.draggable-grid-container {
+    margin-top: 5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: calc(100vw - 2rem);
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, 5rem);
+    justify-content: center;
+    /*align-items: center;*/
+}

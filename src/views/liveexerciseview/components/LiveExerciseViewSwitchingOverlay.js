@@ -1,7 +1,7 @@
 import "./LiveExerciseViewSwitchingOverlay.css"
 
-const LiveExerciseViewSwitchingOverlay = ({totalCountdown, timeLeft}) => {
-    const secondsLeft = Math.floor(timeLeft / 1000)
+const LiveExerciseViewSwitchingOverlay = ({timeLeft}) => {
+    const secondsLeft = Math.floor(timeLeft)
 
     return (
         <div className="switching-overlay">

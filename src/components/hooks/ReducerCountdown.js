@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
+import useEffectDebugger from "./UseEffectDebugger";
 
 export const CountdownStates = {
     /**
@@ -10,116 +11,207 @@ export const CountdownStates = {
     STARTING: "Starting",
 }
 
-const useReducerCountdown = (totalTime, state, onFinish) => {
+const useReducerCountdown = (totalTime, countdownState, onFinish, name = "some-reducer-countdown") => {
     /**
      * state should be a managed state, with values from CountdownStates.
      * @type {number}
      */
+    console.log(`[${name}] called with countdown state:`, countdownState)
+    useEffect(() => {
+        return () => {
+            console.log(`[${name}] unmount`)
+        }
+    }, [])
     const totalTimeMs = totalTime * 1000;
-    const [timeLeft, setTimeLeft] = useState(totalTimeMs);
-    const [paused, setPaused] = useState(state === CountdownStates.PAUSED)
-    const [started, setStarted] = useState(() => {
-        if (state === CountdownStates.OFF) {
+    const started0 = () => {
+        if (countdownState === CountdownStates.OFF) {
             return false
-        } else if (state === CountdownStates.RUNNING) {
+        } else if (countdownState === CountdownStates.RUNNING) {
             return true
         } else {
-            throw Error(`Illegal construction state for countdown ${state}`)
+            throw Error(`Illegal construction state for countdown ${countdownState}`)
+        }
+    }
+    const [state, setState] = useState(() => {
+        return {
+            timeLeft: totalTime,
+            paused: countdownState === CountdownStates.PAUSED,
+            started: started0(),
+            startTime: countdownState === CountdownStates.RUNNING || countdownState === CountdownStates.PAUSED ? performance.now() : null,
+            totalPauseTimeMs: 0,
+            pauseStartTime: null,
+            timeoutTime: null,
+            timeoutID: null,
+            finished: false,
         }
     })
-    const [startTime, setStartTime] = useState(state === CountdownStates.RUNNING || state === CountdownStates.PAUSED ? performance.now() : null)
-    const [totalPauseTime, setTotalPauseTime] = useState(0);
-    const [pauseStartTime, setPauseStartTime] = useState(null);
-    const [prevState, setPrevState] = useState(state)
+    const [prevCountdownState, setPrevCountdownState] = useState(countdownState)
 
-
-    useEffect(() => {
-        let timer = setInterval(() => {
-            if (started) {
-                setTimeLeft((recentTimeLeft) => {
-                    const newTimeLeft = started ? totalTimeMs - ((paused ? pauseStartTime : performance.now()) - startTime - totalPauseTime) : recentTimeLeft
-                    if (recentTimeLeft > 0 && newTimeLeft <= 0) {
-                        clearInterval(timer)
-                        return 0;
-                    }
-                    return newTimeLeft >= 0 ? newTimeLeft : 0
-                });
+    const updateTimeLeft = useCallback(() => {
+        /**
+         * Updates the timeLeft variable.
+         * Also initiates the next update if not paused.
+         * Note, that this code always calls setTimeLeft.
+         * However, that is not a problem as a re-render is only triggered if the value actually changed
+         */
+        setState((state) => {
+            // {timeLeft, paused, started, startTime, totalPauseTimeMs, pauseStartTime, timeout}
+            console.log(`[${name}] Set State called with`, structuredClone(state))
+            console.log(state.finished === true)
+            if (state.finished === true || !state.started) {
+                console.log(`[${name}] Set State returned at 0`, state)
+                return state
             }
-        }, 10);
-        return () => clearInterval(timer);
-    }, [setTimeLeft, paused, pauseStartTime, startTime, totalPauseTime, started, totalTimeMs]);
+            const newTimeLeftMs = totalTimeMs - ((state.paused ? state.pauseStartTime : performance.now()) - state.startTime - state.totalPauseTimeMs)
+            if (newTimeLeftMs <= 0) {
+                console.log(`[${name}] Set State returned at 1`, state)
+                onFinish()
+                state.finished = true
+                return state
+            }
+            const nextFullSecond = Math.floor(newTimeLeftMs / 1000)
+            let timeoutID = null
+            let timeoutTime = null
+            if (!state.paused && nextFullSecond >= 0) {
+                const timeoutMs = newTimeLeftMs % 1000 + 1
 
-    useEffect(() => {
-        if (timeLeft <= 0 && typeof onFinish === 'function') {
-            onFinish()
+                // Only set new timeout if it would be at least 10ms earlier than the currently set timeout
+                // or if there was no previous timeout or the last timeout already happened
+                if (state.timeoutID === null || (state.timeoutTime > performance.now() + timeoutMs + 10 || state.timeoutTime <= performance.now())) {
+                    if (state.timeoutID) {
+                        clearTimeout(state.timeoutID)
+                    }
+                    console.log(`[${name}] Timeout set:`, {
+                        timeoutMs,
+                        "timeLeft": state.timeLeft,
+                        newTimeLeftMs,
+                        nextFullSecond
+                    })
+                    timeoutID = setTimeout(updateTimeLeft, timeoutMs)
+                    timeoutTime = performance.now() + timeoutMs
+                }
+            }
+            if (state.timeLeft === nextFullSecond && timeoutID === null) {
+                console.log(`[${name}] Set State returned at 2`, state)
+                return state
+            }
+            const newState = {
+                timeLeft: nextFullSecond,
+                paused: state.paused,
+                started: state.started,
+                startTime: state.startTime,
+                totalPauseTimeMs: state.totalPauseTimeMs,
+                pauseStartTime: state.pauseStartTime,
+                timeoutTime: timeoutID !== null ? timeoutTime : state.timeoutTime,
+                timeoutID: timeoutID !== null ? timeoutID : state.timeoutID,
+                finished: false,
+            }
+            state.timeLeft = nextFullSecond
+            state.timeoutTime = timeoutID !== null ? timeoutTime : state.timeoutTime
+            state.timeoutID = timeoutID !== null ? timeoutID : state.timeoutID
+            state.finished = false
+            console.log(`[${name}] Set State returned at 3`, newState)
+            return newState
+        })
+    }, [totalTimeMs, onFinish, name])
+
+    useEffectDebugger(() => {
+        /**
+         * Note, that if `paused` changes, updateTimeLeft also changes and thus this useEffect gets called
+         */
+        if (state.started && !state.paused) {
+            updateTimeLeft()
         }
-    }, [timeLeft, onFinish]);
+    }, [state.started, state.paused, updateTimeLeft], ["started", "paused", "updateTimeLeft"], name);
+
 
     const start = useCallback(() => {
         console.log("Start")
-        setStarted(true)
-        setPaused(false)
-        setStartTime(performance.now())
-        setTotalPauseTime(0)
-        setPauseStartTime(null)
-    }, [setStarted, setPaused, setStartTime])
+        setState(({...prevArgs}) => {
+            return {
+                ...prevArgs,
+                paused: false,
+                started: true,
+                startTime: performance.now(),
+                totalPauseTimeMs: 0,
+                pauseStartTime: null,
+                finished: false,
+            }
+        })
+    }, [])
 
     const pause = useCallback(() => {
         console.log("Pause")
-        setPaused(true)
-        setPauseStartTime(performance.now())
-    }, [setPaused, setPauseStartTime])
+        setState(({...prevArgs}) => {
+            return {
+                ...prevArgs,
+                paused: true,
+                pauseStartTime: performance.now()
+            }
+        })
+    }, [])
 
     const resume = useCallback(() => {
         console.log("Resume")
-        setPaused(false)
-        setTotalPauseTime((recentPauseTime) => recentPauseTime + performance.now() - pauseStartTime)
-        setPauseStartTime(null)
-    }, [setPaused, setTotalPauseTime, setPauseStartTime, pauseStartTime])
+        setState(({totalPauseTimeMs, pauseStartTime, ...prevArgs}) => {
+            return {
+                ...prevArgs,
+                paused: false,
+                totalPauseTimeMs: totalPauseTimeMs + performance.now() - pauseStartTime,
+                pauseStartTime: null,
+            }
+        })
+    }, [])
 
 
     const reset = useCallback(() => {
         console.log("Reset")
-        setTimeLeft(totalTimeMs)
-        setPaused(false)
-        setStarted(false)
-        setStartTime(null)
-        setTotalPauseTime(0)
-        setPauseStartTime(null)
-    }, [setTimeLeft, setPaused, setStarted, setStartTime, setTotalPauseTime, setPauseStartTime, totalTimeMs])
-
-
-    useEffect(() => {
-        // console.log("Reducer Countdown useEffect called")
-        // console.log({prevState, state})
-        if (state !== prevState) {
-
-            switch (true) {
-                case prevState === CountdownStates.OFF && state === CountdownStates.RUNNING:
-                    start()
-                    break
-                case prevState === CountdownStates.RUNNING && state === CountdownStates.PAUSED:
-                    pause()
-                    break
-                case prevState === CountdownStates.PAUSED && state === CountdownStates.RUNNING:
-                    resume()
-                    break
-                case prevState === CountdownStates.PAUSED && state === CountdownStates.OFF:
-                case prevState === CountdownStates.RUNNING && state === CountdownStates.OFF:
-                    reset()
-                    break
-                case prevState === CountdownStates.OFF && state === CountdownStates.PAUSED:
-                    start()
-                    pause()
-                    break
-                default:
-                    console.error(`Unexpected state combination: ${prevState} -> ${state}`)
+        setState(({...prevArgs}) => {
+            return {
+                ...prevArgs,
+                timeLeft: totalTime,
+                paused: false,
+                started: false,
+                startTime: null,
+                totalPauseTimeMs: 0,
+                pauseStartTime: null,
+                finished: false
             }
-            setPrevState(state)
-        }
-    }, [state, start, pause, resume, reset, setPrevState])
+        })
+    }, [totalTime])
 
-    return timeLeft
+
+    // useEffect(() => {
+    // console.log(`[${name}] Reducer Countdown useEffect called`)
+    // console.log({prevCountdownState, countdownState})
+    if (countdownState !== prevCountdownState) {
+
+        switch (true) {
+            case prevCountdownState === CountdownStates.OFF && countdownState === CountdownStates.RUNNING:
+                start()
+                break
+            case prevCountdownState === CountdownStates.RUNNING && countdownState === CountdownStates.PAUSED:
+                pause()
+                break
+            case prevCountdownState === CountdownStates.PAUSED && countdownState === CountdownStates.RUNNING:
+                resume()
+                break
+            case prevCountdownState === CountdownStates.PAUSED && countdownState === CountdownStates.OFF:
+            case prevCountdownState === CountdownStates.RUNNING && countdownState === CountdownStates.OFF:
+                reset()
+                break
+            case prevCountdownState === CountdownStates.OFF && countdownState === CountdownStates.PAUSED:
+                start()
+                pause()
+                break
+            default:
+                console.error(`Unexpected state combination: ${prevCountdownState} -> ${countdownState}`)
+        }
+        setPrevCountdownState(countdownState)
+    }
+    // }, [countdownState, start, pause, resume, reset, setPrevCountdownState])
+
+    return state.timeLeft
 }
 
 export default useReducerCountdown;

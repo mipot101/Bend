@@ -4,7 +4,7 @@ import LiveExerciseImage from "./components/LiveExerciseImage";
 import RoundButton from "../../components/RoundButton";
 import Header from "../../components/Header";
 import {AppStates} from "../../App";
-import {useCallback, useReducer, useState} from "react";
+import {useCallback, useEffect, useReducer, useState} from "react";
 import LiveExerciseViewStartingOverlay from "./components/LiveExerciseViewStartingOverlay";
 import LiveExerciseViewSwitchingOverlay from "./components/LiveExerciseViewSwitchingOverlay";
 import {AvailableCountdowns, LiveExerciseActionsTypes, liveExerciseReducer} from "./hooks/LiveExerciseReducer";
@@ -29,30 +29,38 @@ const LiveExerciseView = ({
     }
 
     const [countdownsState, dispatchCountdownsState] = useReducer(liveExerciseReducer, initialCountdownStates)
+    console.log("[live-exercise-view] called with countdown state:", countdownsState)
 
     const liveCountdownOnFinish = useCallback(() => {
+        console.log("liveCountdownOnFinish()")
         moveToNextExercise()
         dispatchCountdownsState(LiveExerciseActionsTypes.LIVE_COUNTDOWN_END)
     }, [dispatchCountdownsState, moveToNextExercise])
     const startingCountdownOnFinish = useCallback(() => {
+        console.log("startingCountdownOnFinish()")
         dispatchCountdownsState(LiveExerciseActionsTypes.STARTING_COUNTDOWN_END)
     }, [dispatchCountdownsState])
     const switchingCountdownOnFinish = useCallback(() => {
         dispatchCountdownsState(LiveExerciseActionsTypes.SWITCHING_COUNTDOWN_END)
     }, [dispatchCountdownsState])
-    const liveCountdownTimeLeft = useReducerCountdown(exerciseDuration, countdownsState.currentCountdown === AvailableCountdowns.LIVE_COUNTDOWN ? countdownsState.countdownState : CountdownStates.OFF, liveCountdownOnFinish)
-    const switchingCountdownTimeLeft = useReducerCountdown(switchingDuration, countdownsState.currentCountdown === AvailableCountdowns.SWITCHING_COUNTDOWN ? countdownsState.countdownState : CountdownStates.OFF, switchingCountdownOnFinish)
-    const startingCountdownTimeLeft = useReducerCountdown(startingDuration, countdownsState.currentCountdown === AvailableCountdowns.STARTING_COUNTDOWN ? countdownsState.countdownState : CountdownStates.OFF, startingCountdownOnFinish)
+    const liveCountdownTimeLeft = useReducerCountdown(exerciseDuration, countdownsState.currentCountdown === AvailableCountdowns.LIVE_COUNTDOWN ? countdownsState.countdownState : CountdownStates.OFF, liveCountdownOnFinish, "live-countdown")
+    const switchingCountdownTimeLeft = useReducerCountdown(switchingDuration, countdownsState.currentCountdown === AvailableCountdowns.SWITCHING_COUNTDOWN ? countdownsState.countdownState : CountdownStates.OFF, switchingCountdownOnFinish, "switching-countdown")
+    const startingCountdownTimeLeft = useReducerCountdown(startingDuration, countdownsState.currentCountdown === AvailableCountdowns.STARTING_COUNTDOWN ? countdownsState.countdownState : CountdownStates.OFF, startingCountdownOnFinish, "starting-countdown")
     const [animationVisible, setAnimationVisible] = useState(true)
     const currentCountdownDuration = countdownsState.currentCountdown === AvailableCountdowns.LIVE_COUNTDOWN ? exerciseDuration : countdownsState.currentCountdown === AvailableCountdowns.STARTING_COUNTDOWN ? startingDuration : switchingDuration
 
+    useEffect(() => {
+        return () => {
+            console.log("[live-exercise-view] unmount")
+        }
+    }, [])
 
     const backwardButtonOnClick = () => {
         dispatchCountdownsState(LiveExerciseActionsTypes.RESTART_EXERCISE)
         setTimeout(() => dispatchCountdownsState(LiveExerciseActionsTypes.RESTART_EXERCISE_0), 10)
         setAnimationVisible(false)
         setTimeout(() => setAnimationVisible(true), 10)
-        if (Math.abs(liveCountdownTimeLeft - exerciseDuration * 1000) < 1000) {
+        if (Math.abs(liveCountdownTimeLeft - exerciseDuration) <= 1) {
             moveToPreviousExercise()
         }
     }
@@ -115,8 +123,7 @@ const LiveExerciseView = ({
             {countdownsState.currentCountdown === AvailableCountdowns.STARTING_COUNTDOWN &&
                 <LiveExerciseViewStartingOverlay timeLeft={startingCountdownTimeLeft}/>}
             {countdownsState.currentCountdown === AvailableCountdowns.SWITCHING_COUNTDOWN &&
-                <LiveExerciseViewSwitchingOverlay timeLeft={switchingCountdownTimeLeft}
-                                                  totalCountdown={switchingDuration}/>}
+                <LiveExerciseViewSwitchingOverlay timeLeft={switchingCountdownTimeLeft}/>}
         </div>
     );
 }

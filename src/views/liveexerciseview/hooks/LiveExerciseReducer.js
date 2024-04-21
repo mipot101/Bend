@@ -74,6 +74,6 @@ const liveExerciseReducerHelper = (state, action) => {
 export const liveExerciseReducer = (state, action) => {
     const newState = liveExerciseReducerHelper(state, action)
     // console.log(`${state.countdownState} -> ${newState.countdownState} (${performance.now()})`)
-    // console.log({prevState: state, newState: newState})
+    console.log("Reducer changing state:", {action, prevState: state, newState: newState})
     return newState
 }
