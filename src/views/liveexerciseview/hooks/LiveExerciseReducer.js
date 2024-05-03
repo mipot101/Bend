@@ -1,5 +1,3 @@
-import {CountdownStates} from "../../../components/hooks/ReducerCountdown";
-
 export const LiveExerciseActionsTypes = {
     EXERCISE_CHANGED: 0,
     RESTART_EXERCISE: 1,
@@ -16,6 +14,12 @@ export const AvailableCountdowns = {
     LIVE_COUNTDOWN: 0,
     STARTING_COUNTDOWN: 1,
     SWITCHING_COUNTDOWN: 2,
+}
+
+export const CountdownStates = {
+    RUNNING: 0,
+    OFF: 1,
+    PAUSED: 2,
 }
 
 const liveExerciseReducerHelper = (state, action) => {
@@ -74,6 +78,6 @@ const liveExerciseReducerHelper = (state, action) => {
 export const liveExerciseReducer = (state, action) => {
     const newState = liveExerciseReducerHelper(state, action)
     // console.log(`${state.countdownState} -> ${newState.countdownState} (${performance.now()})`)
-    console.log("Reducer changing state:", {action, prevState: state, newState: newState})
+    // console.log("Reducer changing state:", {action, prevState: state, newState: newState})
     return newState
 }

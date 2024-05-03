@@ -33,7 +33,7 @@ function App() {
         new Exercise("Breite Beinbeuge", BreiteBeinbeuge, 10),
         new Exercise("Seitlicher Ausfallschritt", SeitlicherAusfallschritt, 10),
     ]
-    const [appState, setAppState] = useState(AppStates.ADD_PROGRAM_VIEW);
+    const [appState, setAppState] = useState(AppStates.LIVE_EXERCISE_VIEW);
     const [currentExerciseSet, setCurrentExerciseSet] = useState(defaultExerciseSet);
     const [currentExerciseNumber, moveToPreviousExercise, moveToNextExercise, resetExercise] = useExerciseNumber(currentExerciseSet.length, setAppState);
 

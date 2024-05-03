@@ -4,7 +4,6 @@ import {AppStates} from "../../App";
 export const useExerciseNumber = (exerciseSetLength, setAppState) => {
     const [currentExerciseNumber, setCurrentExerciseNumber] = useState(0);
     const moveToNextExercise = useCallback(() => {
-        console.log("Move to next Exercise")
         setCurrentExerciseNumber((prevNumber) => {
             const nextExercise = prevNumber + 1
             if (nextExercise < exerciseSetLength) {
@@ -15,7 +14,7 @@ export const useExerciseNumber = (exerciseSetLength, setAppState) => {
             }
         })
     }, [exerciseSetLength, setAppState])
-    
+
     const moveToPreviousExercise = useCallback(() => {
         setCurrentExerciseNumber((prevNumber) => prevNumber > 0 ? prevNumber - 1 : 0)
     }, [])
